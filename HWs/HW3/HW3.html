@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Location Map</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <style>
+      #map { height: 400px; }
+    </style>
+  </head>
+  <body>
+    <h1>Location Map</h1>
+
+    <input type="text" id="latitudeInput" placeholder="Latitude">
+    <input type="text" id="longitudeInput" placeholder="Longitude">
+    <button id="addMarkerBtn">Add Location</button>
+
+    <div id="map"></div>
+
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script>
+      const map = L.map('map').setView([51.505, -0.09], 13); // Initialize the map with default location
+
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+      }).addTo(map);
+
+      const latitudeInput = document.getElementById('latitudeInput');
+      const longitudeInput = document.getElementById('longitudeInput');
+      const addMarkerBtn = document.getElementById('addMarkerBtn');
+
+      addMarkerBtn.addEventListener('click', () => {
+        const latitude = parseFloat(latitudeInput.value);
+        const longitude = parseFloat(longitudeInput.value);
+
+        if (!isNaN(latitude) && !isNaN(longitude)) {
+          map.panTo([latitude, longitude]); // Pan to the specified coordinates
+          L.marker([latitude, longitude]).addTo(map).bindPopup(`Latitude: ${latitude}, Longitude: ${longitude}`).openPopup(); 
+        } else {
+          alert('Please enter valid latitude and longitude values.');
+        }
+      });
+
+    </script>
+  </body>
+</html>
